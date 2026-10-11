@@ -3,6 +3,10 @@
 Three people, three branches, one shared contract.
 **The contract is [`docs/API.md`](API.md).** Build against it; don't change it alone.
 
+**Step-by-step task sheets:** [Frontend](tasks/FRONTEND.md) · [Backend](tasks/BACKEND.md) · [AI](tasks/AI.md)
+
+**Beginner's guides with ready-to-paste AI prompts** (start here): [How to build with AI](guides/HOW_TO_BUILD_WITH_AI.md) · [Frontend](guides/FRONTEND_GUIDE.md) · [Backend](guides/BACKEND_GUIDE.md) · [AI agent](guides/AI_GUIDE.md)
+
 | Person | Role | Branch | Owns (only you edit these) |
 |---|---|---|---|
 | **A** | Frontend | `feature/frontend` | `frontend/` |
