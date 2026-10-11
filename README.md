@@ -4,8 +4,8 @@
 > have found — even when they describe it in completely different words — and explains
 > **why** each suggestion might or might not be your item.
 
-Built in one day at a hackathon by **Team Nipodihos**, using an **open-weight language model**
-(`gpt-oss-120b`, Apache 2.0).
+Built in one day at a hackathon by **Team Nipodihos**, using two **open-weight model families**,
+both Apache 2.0: **Gemma 4** (Google) and **gpt-oss** (OpenAI).
 
 ---
 
@@ -44,23 +44,24 @@ A small, controlled pipeline — not a free-roaming autonomous agent. The model 
 language models are good at; trusted Python code does everything that must be reliable.
 
 ```
- New report ──▶ extract    [model]   "navy school bag" → item: backpack, color family: blue
-                                      saved with the report
+ New report ──▶ extract    [Gemma 4]  "navy school bag" → item: backpack, color family: blue
+                                       saved with the report          (backup: gpt-oss)
 
- Find matches ─▶ 1. retrieve [Python]  opposite type, compatible category, word similarity → top 5
-                 2. compare  [model]   ONE call compares all candidates; strict JSON output
-                 3. verify   [Python]  every quoted piece of evidence must appear word-for-word
-                                       in the reports, otherwise it is discarded
-                 4. score    [Python]  fixed points table + safety rules → ranked results
-                 └─ model unavailable? → "degraded mode": rule-based results, never "likely"
+ Find matches ─▶ 1. retrieve [Python]   opposite type, compatible category, word similarity → top 5
+                 2. compare  [gpt-oss]  ONE call compares all candidates, quoting evidence verbatim
+                             [Gemma 4]  if gpt-oss is unavailable: "field mode" (see below)
+                 3. verify   [Python]   every piece of evidence must come from the reports,
+                                        otherwise it is discarded
+                 4. score    [Python]   fixed points table + safety rules → ranked results
+                 └─ no model available? → "degraded mode": rule-based results, never "likely"
 ```
 
 **Design principles**
 
 - **The model suggests; Python decides.** The model never sets the score, never touches the
   database, and never runs code or SQL.
-- **No invented evidence.** Each claim must quote the reports verbatim; unverifiable claims
-  are dropped before anyone sees them.
+- **No invented evidence.** Each claim must quote the reports verbatim (gpt-oss) or point to a
+  report field whose text Python copies itself (Gemma); unverifiable claims are dropped.
 - **Missing information is never treated as a match.** It scores 0 and is listed as "still unknown".
 - **Time is checked by code, not the model.** An item found *before* it was lost is flagged automatically.
 - **Privacy by design.** Contact info is never sent to the model or returned by the API.
@@ -88,23 +89,45 @@ means **unlikely match**, whatever the model suggested. Full rules: [`docs/API.m
 
 ---
 
-## The model and why it qualifies
+## The models and why they qualify
 
-| | |
-|---|---|
-| **Model** | [`openai/gpt-oss-120b`](https://huggingface.co/openai/gpt-oss-120b) (fallback: `gpt-oss-20b`) |
-| **License** | **Apache 2.0** — open-weight; weights are publicly downloadable |
-| **Hosting** | [Groq](https://console.groq.com) (OpenAI-compatible API, free tier). We have no GPU, so we use hosted inference; the same open weights could run on any server without code changes. |
-| **Role** | Normalizes report descriptions and compares reports with evidence. It is the component that understands synonyms, shades and free-text details. |
+| | **Gemma 4** | **gpt-oss** |
+|---|---|---|
+| **Model** | [`gemma-4-26b-a4b-it`](https://huggingface.co/google/gemma-4-26b-a4b-it) | [`openai/gpt-oss-120b`](https://huggingface.co/openai/gpt-oss-120b) (+ `gpt-oss-20b`) |
+| **License** | **Apache 2.0** (open-weight, publicly downloadable) | **Apache 2.0** (open-weight, publicly downloadable) |
+| **Hosting** | Google AI Studio (free tier) | Groq (free tier) |
+| **Main job** | Reads every new report and normalises it | Compares candidates with verbatim evidence |
+| **Backup job** | Compares candidates in *field mode* when gpt-oss is unavailable | Reads reports when Gemma is unavailable |
 
-We tested the riskiest assumption first ([`scripts/spike_model.py`](scripts/spike_model.py)):
-on 4 hand-made tricky cases, the model produced schema-valid JSON, all four assessments
-were sensible, every quoted piece of evidence was found in the source reports, and no private
-details leaked — in about 5 seconds per call. *(A small sanity check, not a benchmark.)*
+We have no GPU, so both run on hosted inference through OpenAI-compatible APIs; the same
+open weights could run on any server without code changes. The Google API key also reaches
+Google's closed Gemini models, so the code **refuses any Google model not named `gemma-*`**.
 
-**Photos:** we are evaluating an open-weight vision model (`qwen/qwen3.8-27b` on Groq).
-It will only be used for matching if it passes our tests on real photos; otherwise photos are
-shown to humans but not analyzed.
+**Why two models?** We measured instead of guessing ([`scripts/eval_matching.py`](scripts/eval_matching.py)):
+- Gemma 4 normalised all 17 demo reports fast (~1–5 s), so it reads reports. Its one mistake
+  (a brown wallet labelled "blue") led us to let code, not the model, decide colour families.
+- When Gemma had to *quote* the reports, Google's hosting blocked half of the answers with its
+  "recitation" filter (it refuses to repeat text word-for-word). So Gemma compares in
+  **field mode**: it names *which field* supports each judgement, and Python copies the words
+  from the report itself — the model cannot invent evidence text at all.
+- gpt-oss has no such filter and quotes evidence directly, so it leads the comparison step.
+
+### Evaluation on our demo dataset
+
+[`sample_data/demo_reports.json`](sample_data/demo_reports.json): 17 campus reports with traps —
+synonyms, a look-alike decoy whose private detail differs, an item found *before* it was lost,
+missing dates, a sparse vs a rich description, and a lost item with no true match.
+
+| Comparison model | Checks passed | Time per search |
+|---|---|---|
+| gpt-oss-120b (quote mode) | **10 / 10** | ~2–8 s |
+| Gemma 4 26B (field mode) | **9 / 10** — missed that "library entrance" vs "bus stop" are different places, so a wrong umbrella stayed "possible" (with a red conflict) | ~5–20 s |
+
+In both runs all 4 true matches ranked first and no private detail leaked. *This is our own
+small dataset, so it shows sensible behaviour on hard cases — it is not an independent benchmark.*
+
+**Photos:** Gemma 4 can read images; photo analysis is not enabled yet. Photos are shown to
+people but not used for matching.
 
 ---
 
@@ -114,7 +137,8 @@ shown to humans but not analyzed.
 React + Vite (frontend/)  ──HTTP/JSON──▶  FastAPI + SQLite (backend/app/)
                                                    │ Python call
                                                    ▼
-                                     AI agent (backend/foundit_ai/) ──▶ Groq: gpt-oss-120b
+                                     AI agent (backend/foundit_ai/) ──▶ Gemma 4 (Google AI Studio)
+                                                                    ──▶ gpt-oss (Groq)
 ```
 
 | Layer | Tech | Folder |
@@ -122,7 +146,7 @@ React + Vite (frontend/)  ──HTTP/JSON──▶  FastAPI + SQLite (backend/ap
 | Frontend | React, Vite, plain CSS | `frontend/` |
 | API | Python, FastAPI, Pydantic | `backend/app/` |
 | Storage | SQLite (single file) | `backend/foundit.db` (not committed) |
-| AI agent | Python, `openai` SDK → Groq | `backend/foundit_ai/` |
+| AI agent | Python, `openai` SDK → Google AI Studio (Gemma 4) + Groq (gpt-oss) | `backend/foundit_ai/` |
 | Tests | pytest (fully offline, fake model) | `backend/tests/` |
 
 **API** (full contract with request/response schemas: [`docs/API.md`](docs/API.md))
@@ -146,25 +170,26 @@ We build in small, tested steps. This table is kept honest.
 |---|---|
 | API contract + mock data | ✅ Done |
 | Model feasibility test (spike) | ✅ Done |
-| AI: data shapes + deterministic scoring, grounding, privacy (17 offline tests) | ✅ Done |
-| AI: retrieval, model client, comparison, extraction, agent | 🚧 In progress |
-| Backend API + database | 🚧 In progress |
-| Frontend | 🚧 In progress |
-| Demo dataset + live evaluation | ⏳ Planned |
-| Photo analysis | ⏳ Experimental |
+| AI agent: retrieval, Gemma 4 + gpt-oss clients, comparison, scoring, privacy (69 offline tests) | ✅ Done |
+| Demo dataset + live evaluation (10/10 gpt-oss, 9/10 Gemma field mode) | ✅ Done |
+| Backend API + database | ✅ Built on its branch, merging |
+| Frontend | ✅ Built on its branch, merging |
+| Photo analysis | ⏳ Not enabled |
 
 ---
 
 ## Getting started
 
-**Requirements:** Python 3.11+, Node 18+, Git, a free Groq API key.
+**Requirements:** Python 3.11+, Node 18+, Git, and at least one free API key:
+Google AI Studio (Gemma 4) and/or Groq (gpt-oss). Both is best.
 
 ```bash
 git clone https://github.com/Ducktoberfest/team-nipodihos.git
 cd team-nipodihos
 ```
 
-**1. Secrets** — copy the template and add your key (get one at https://console.groq.com/keys):
+**1. Secrets** — copy the template and add your keys
+(https://aistudio.google.com/apikey for Gemma, https://console.groq.com/keys for gpt-oss):
 ```bash
 cp .env.example .env        # Windows: copy .env.example .env
 ```
