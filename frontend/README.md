@@ -1,0 +1,67 @@
+# FoundIt — frontend (Person A)
+
+React + Vite, plain JavaScript, plain CSS. No router, no UI kit, no state library.
+
+## Run it
+
+Needs Node 18+ (`.nvmrc` pins 22.23.3 — `nvm use` picks it up).
+
+```bash
+npm install
+npm run dev     # http://localhost:5173
+```
+
+## Mock mode
+
+`src/api.js` has two switches at the top:
+
+| Flag | Default | What it does |
+|---|---|---|
+| `USE_MOCKS` | `true` | Serves `src/mocks/*.json` with an artificial delay instead of calling the backend. |
+| `MOCK_DEGRADED` | `false` | In mock mode, returns `mock_matches_degraded.json` so the "AI unavailable" banner can be demoed. |
+
+Reports created while `USE_MOCKS` is on are kept in memory for the session, so a
+submitted report shows up in the list and has its own matches page. Feedback is
+remembered the same way. Everything resets on reload.
+
+## Switching to the real backend
+
+1. Person B runs `uvicorn app.main:app --reload --app-dir backend` from the repo root.
+2. Set `USE_MOCKS = false` in `src/api.js`.
+3. Optional: `VITE_API_URL=http://localhost:8000` in `frontend/.env` (that default is already built in).
+
+Nothing else changes — every network call goes through `src/api.js`.
+
+## Structure
+
+```
+src/
+  api.js          every network call + the mock switch
+  format.js       category/attribute labels, date formatting, ISO conversion
+  App.jsx         page state: "home" | "new" | "list" | "matches"
+  index.css       design tokens and all styling
+  mocks/          copies of sample_data/mock_*.json
+  components/
+    Landing.jsx         headline, 3-step explainer, entry buttons
+    ReportForm.jsx      lost/found toggle, validation, ISO UTC conversion
+    ReportList.jsx      cards + All/Lost/Found filter
+    MatchesView.jsx     your report, Find matches, degraded banner, states
+    MatchCard.jsx       one candidate, composed from the four below
+    AssessmentBadge.jsx assessment → label + colour
+    ScoreBreakdown.jsx  ranking score bar + the 5 attribute rows
+    EvidenceList.jsx    green matching / red conflicting evidence
+    FeedbackButtons.jsx confirm / not mine / not sure
+```
+
+## Wording rules
+
+- The number is a **ranking score**, never a "% match" or a "probability".
+- A candidate's private detail is never shown — it renders as a 🔒 badge asking
+  the user to describe it to the finder.
+- Every matches page ends with "Suggestions are not proof."
+
+If the mocks in `sample_data/` change, re-copy them:
+
+```bash
+cp ../sample_data/mock_*.json src/mocks/
+```

@@ -1,0 +1,143 @@
+{
+  "items": [
+    {
+      "id": 6,
+      "type": "found",
+      "description": "Black phone found under a desk in Lecture Hall B after the evening class. Screen is locked.",
+      "category": "electronics",
+      "color": "black",
+      "location": "Engineering Building, Lecture Hall B",
+      "occurred_at": "2026-10-09T19:15:00Z",
+      "has_photo": false,
+      "photo_url": null,
+      "has_private_details": true,
+      "status": "open",
+      "created_at": "2026-10-09T19:40:00Z",
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "smartphone",
+        "category": "electronics",
+        "color_family": ["black"],
+        "brand": null,
+        "features": ["screen locked"],
+        "location_normalized": "engineering building lecture hall b"
+      }
+    },
+    {
+      "id": 5,
+      "type": "lost",
+      "description": "Lost my black iPhone somewhere in the engineering building. The case has a cracked corner.",
+      "category": "electronics",
+      "color": "black",
+      "location": "Engineering Building",
+      "occurred_at": "2026-10-09T18:00:00Z",
+      "has_photo": false,
+      "photo_url": null,
+      "has_private_details": true,
+      "status": "open",
+      "created_at": "2026-10-09T21:00:00Z",
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "smartphone",
+        "category": "electronics",
+        "color_family": ["black"],
+        "brand": "Apple",
+        "features": ["cracked case corner"],
+        "location_normalized": "engineering building"
+      }
+    },
+    {
+      "id": 4,
+      "type": "found",
+      "description": "Someone handed in a backpack at the security desk.",
+      "category": "bag",
+      "color": null,
+      "location": null,
+      "occurred_at": null,
+      "has_photo": false,
+      "photo_url": null,
+      "has_private_details": false,
+      "status": "open",
+      "created_at": "2026-10-10T08:00:00Z",
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": [],
+        "brand": null,
+        "features": [],
+        "location_normalized": null
+      }
+    },
+    {
+      "id": 3,
+      "type": "found",
+      "description": "Blue Adidas backpack found in the Sports Centre locker room. No keyring, has a water bottle in the side pocket.",
+      "category": "bag",
+      "color": "blue",
+      "location": "Sports Centre, locker room",
+      "occurred_at": "2026-10-08T10:00:00Z",
+      "has_photo": true,
+      "photo_url": "/reports/3/photo",
+      "has_private_details": false,
+      "status": "open",
+      "created_at": "2026-10-08T10:30:00Z",
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": ["blue"],
+        "brand": "Adidas",
+        "features": ["no keyring", "water bottle in side pocket"],
+        "location_normalized": "sports centre locker room"
+      }
+    },
+    {
+      "id": 2,
+      "type": "found",
+      "description": "A navy school bag was left on a chair in the library. It has a keyring attached.",
+      "category": "bag",
+      "color": "navy",
+      "location": "Main Library, 2nd floor reading room",
+      "occurred_at": "2026-10-09T17:30:00Z",
+      "has_photo": true,
+      "photo_url": "/reports/2/photo",
+      "has_private_details": true,
+      "status": "open",
+      "created_at": "2026-10-09T17:45:00Z",
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": ["blue"],
+        "brand": null,
+        "features": ["keyring attached"],
+        "location_normalized": "main library 2nd floor reading room"
+      }
+    },
+    {
+      "id": 1,
+      "type": "lost",
+      "description": "I lost my dark blue backpack near the university library. It had a laptop and a small keychain inside.",
+      "category": "bag",
+      "color": "dark blue",
+      "location": "Main Library",
+      "occurred_at": "2026-10-09T14:00:00Z",
+      "has_photo": false,
+      "photo_url": null,
+      "has_private_details": true,
+      "status": "open",
+      "created_at": "2026-10-09T15:10:00Z",
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": ["blue"],
+        "brand": null,
+        "features": ["contains laptop", "small keychain"],
+        "location_normalized": "main library"
+      }
+    }
+  ],
+  "total": 6
+}
