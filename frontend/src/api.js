@@ -2,7 +2,7 @@ import mockReports from "./mocks/mock_reports.json";
 import mockMatches from "./mocks/mock_matches.json";
 import mockMatchesDegraded from "./mocks/mock_matches_degraded.json";
 
-export const USE_MOCKS = true;
+export const USE_MOCKS = false;   // real backend; set true to work offline from src/mocks/
 export const MOCK_DEGRADED = false;
 
 const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
