@@ -14,12 +14,6 @@ const NAV = [
 export default function App() {
   const [page, setPage] = useState("home");
   const [selectedReportId, setSelectedReportId] = useState(null);
-  const [newReportType, setNewReportType] = useState("lost");
-
-  function openForm(type) {
-    setNewReportType(type);
-    setPage("new");
-  }
 
   function openMatches(reportId) {
     setSelectedReportId(reportId);
@@ -52,16 +46,10 @@ export default function App() {
 
       <main>
         <div className="container">
-          {page === "home" && (
-            <Landing onReport={openForm} onBrowse={() => setPage("list")} />
-          )}
+          {page === "home" && <Landing />}
 
           {page === "new" && (
-            <ReportForm
-              key={newReportType}
-              initialType={newReportType}
-              onCreated={(report) => openMatches(report.id)}
-            />
+            <ReportForm onCreated={(report) => openMatches(report.id)} />
           )}
 
           {page === "list" && <ReportList onOpenMatches={openMatches} />}

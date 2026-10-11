@@ -767,10 +767,71 @@ textarea {
 }
 
 .photo {
-  max-width: 100%;
+  width: 100%;
+  max-height: 240px;
+  object-fit: cover;
+  border: 1px solid var(--line);
   border-radius: 11px;
   margin-top: 10px;
   display: block;
+}
+
+input[type="file"] {
+  padding: 8px 10px;
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button {
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.86rem;
+  margin-right: 11px;
+  padding: 6px 13px;
+  border-radius: 8px;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+input[type="file"]::file-selector-button:hover {
+  border-color: var(--ink-faint);
+}
+
+.photo-pick {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin-top: 11px;
+  padding: 11px;
+  background: var(--indigo);
+  border: 1px solid var(--line);
+  border-radius: 11px;
+}
+
+.photo-pick img {
+  width: 74px;
+  height: 74px;
+  object-fit: cover;
+  border-radius: 9px;
+  flex: none;
+  background: var(--surface-2);
+}
+
+.photo-pick > div {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  min-width: 0;
+}
+
+.photo-pick .small:first-child {
+  word-break: break-all;
+}
+
+.photo-pick button {
+  margin-top: 5px;
 }
 
 .photo-note {
