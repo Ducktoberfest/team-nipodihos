@@ -2,8 +2,9 @@ import mockReports from "./mocks/mock_reports.json";
 import mockMatches from "./mocks/mock_matches.json";
 import mockMatchesDegraded from "./mocks/mock_matches_degraded.json";
 
-export const USE_MOCKS = true;
-export const MOCK_DEGRADED = false;
+// Real backend by default. For mock data: VITE_USE_MOCKS=true npm run dev
+export const USE_MOCKS = import.meta.env.VITE_USE_MOCKS === "true";
+export const MOCK_DEGRADED = import.meta.env.VITE_MOCK_DEGRADED === "true";
 
 const BASE = import.meta.env.VITE_API_URL ?? "http://localhost:8000";
 const wait = (ms) => new Promise((r) => setTimeout(r, ms));
