@@ -1,5 +1,10 @@
-import { useState } from "react";
-import { createReport } from "../api.js";
+import { useEffect, useState } from "react";
+import {
+  createReport,
+  uploadPhoto,
+  PHOTO_TYPES,
+  PHOTO_MAX_BYTES,
+} from "../api.js";
 import { CATEGORIES, categoryLabel, localInputToIso, maxLocalInput } from "../format.js";
 
 const EMPTY = {
@@ -55,6 +60,52 @@ export default function ReportForm({ initialType = "lost", onCreated }) {
   const [errors, setErrors] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [serverError, setServerError] = useState(null);
+  const [photo, setPhoto] = useState(null);
+  const [photoPreview, setPhotoPreview] = useState(null);
+  const [createdId, setCreatedId] = useState(null);
+
+  // Revoke the object URL so the chosen image is not held in memory.
+  useEffect(() => {
+    if (!photo) return undefined;
+    const url = URL.createObjectURL(photo);
+    setPhotoPreview(url);
+    return () => URL.revokeObjectURL(url);
+  }, [photo]);
+
+  function pickPhoto(event) {
+    const file = event.target.files?.[0] ?? null;
+    setServerError(null);
+    if (!file) {
+      setPhoto(null);
+      setPhotoPreview(null);
+      setErrors((prev) => ({ ...prev, photo: undefined }));
+      return;
+    }
+    if (!PHOTO_TYPES.includes(file.type)) {
+      setPhoto(null);
+      setErrors((prev) => ({
+        ...prev,
+        photo: "Photo must be a JPEG, PNG or WebP image.",
+      }));
+      return;
+    }
+    if (file.size > PHOTO_MAX_BYTES) {
+      setPhoto(null);
+      setErrors((prev) => ({
+        ...prev,
+        photo: `Photo must be 5 MB or smaller (this one is ${(file.size / 1048576).toFixed(1)} MB).`,
+      }));
+      return;
+    }
+    setErrors((prev) => ({ ...prev, photo: undefined }));
+    setPhoto(file);
+  }
+
+  function clearPhoto() {
+    setPhoto(null);
+    setPhotoPreview(null);
+    setErrors((prev) => ({ ...prev, photo: undefined }));
+  }
 
   const set = (key) => (event) =>
     setForm((prev) => ({ ...prev, [key]: event.target.value }));
@@ -78,6 +129,19 @@ export default function ReportForm({ initialType = "lost", onCreated }) {
         private_details: orNull(form.privateDetails),
         contact: orNull(form.contact),
       });
+
+      if (photo) {
+        try {
+          await uploadPhoto(report.id, photo);
+        } catch (photoErr) {
+          // The report exists; only the photo failed. Don't make them retype it.
+          setCreatedId(report.id);
+          setServerError(
+            `Your report was saved, but the photo could not be uploaded: ${photoErr.message}`
+          );
+          return;
+        }
+      }
       onCreated(report);
     } catch (err) {
       setServerError(err.message);
@@ -204,6 +268,44 @@ export default function ReportForm({ initialType = "lost", onCreated }) {
           )}
         </label>
 
+        <div className={`field ${errors.photo ? "invalid" : ""}`}>
+          <span className="label">Photo</span>
+          <span className="hint">
+            Optional. JPEG, PNG or WebP, up to 5 MB. Shown to anyone browsing
+            reports, so avoid photos with people or documents in them.
+          </span>
+          <input
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            onChange={pickPhoto}
+          />
+          {errors.photo && <span className="field-error">{errors.photo}</span>}
+          {photoPreview && (
+            <div className="photo-pick">
+              <img
+                src={photoPreview}
+                alt="Preview of the photo you selected"
+                onError={(e) => {
+                  e.currentTarget.style.display = "none";
+                }}
+              />
+              <div>
+                <div className="small">{photo.name}</div>
+                <div className="small muted">
+                  {(photo.size / 1048576).toFixed(2)} MB
+                </div>
+                <button
+                  type="button"
+                  className="btn secondary small"
+                  onClick={clearPhoto}
+                >
+                  Remove photo
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+
         <label className={`field ${errors.contact ? "invalid" : ""}`}>
           <span className="label">Contact</span>
           <span className="hint">
@@ -226,9 +328,23 @@ export default function ReportForm({ initialType = "lost", onCreated }) {
           </div>
         )}
 
-        <button className="btn" type="submit" disabled={submitting}>
-          {submitting ? "Submitting…" : "Submit and find matches"}
-        </button>
+        {createdId ? (
+          <button
+            className="btn"
+            type="button"
+            onClick={() => onCreated({ id: createdId })}
+          >
+            Continue to matches
+          </button>
+        ) : (
+          <button className="btn" type="submit" disabled={submitting}>
+            {submitting
+              ? photo
+                ? "Uploading…"
+                : "Submitting…"
+              : "Submit and find matches"}
+          </button>
+        )}
       </form>
     </div>
   );

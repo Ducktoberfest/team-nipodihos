@@ -17,18 +17,27 @@ npm run dev     # http://localhost:5173
 
 | Flag | Default | What it does |
 |---|---|---|
-| `USE_MOCKS` | `true` | Serves `src/mocks/*.json` with an artificial delay instead of calling the backend. |
+| `USE_MOCKS` | `false` | `true` serves `src/mocks/*.json` with an artificial delay instead of calling the backend — use it to work offline when the API is down. |
 | `MOCK_DEGRADED` | `false` | In mock mode, returns `mock_matches_degraded.json` so the "AI unavailable" banner can be demoed. |
 
 Reports created while `USE_MOCKS` is on are kept in memory for the session, so a
 submitted report shows up in the list and has its own matches page. Feedback is
 remembered the same way. Everything resets on reload.
 
-## Switching to the real backend
+## Running against the backend
 
-1. Person B runs `uvicorn app.main:app --reload --app-dir backend` from the repo root.
-2. Set `USE_MOCKS = false` in `src/api.js`.
-3. Optional: `VITE_API_URL=http://localhost:8000` in `frontend/.env` (that default is already built in).
+The app talks to the real API by default. From the repo root:
+
+```bash
+python3.11 -m venv .venv && .venv/bin/pip install -r backend/requirements.txt
+.venv/bin/python scripts/seed_db.py
+.venv/bin/uvicorn app.main:app --reload --app-dir backend
+```
+
+Optional: `VITE_API_URL=http://localhost:8000` in `frontend/.env` (that default is built in).
+
+Without a `GROQ_API_KEY` in the repo-root `.env`, the API answers with `degraded: true`
+and the UI shows the yellow "AI unavailable" banner — matching still works on rules alone.
 
 Nothing else changes — every network call goes through `src/api.js`.
 

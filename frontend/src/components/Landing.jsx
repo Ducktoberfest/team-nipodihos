@@ -1,25 +1,10 @@
-export default function Landing({ onReport, onBrowse }) {
+export default function Landing() {
   return (
     <div>
       <section className="hero">
-        <h1>Lost something on campus?</h1>
-        <p className="lede">
-          FoundIt compares your description with items other people have handed
-          in — even when they describe the same thing in completely different
-          words. For every suggestion it shows you the evidence for and against,
-          so you decide whether it is worth following up.
-        </p>
-        <div className="btn-group">
-          <button className="btn" onClick={() => onReport("lost")}>
-            I lost something
-          </button>
-          <button className="btn secondary" onClick={() => onReport("found")}>
-            I found something
-          </button>
-          <button className="btn secondary" onClick={onBrowse}>
-            Browse reports
-          </button>
-        </div>
+        <h1>
+          Lost something <em>on campus?</em>
+        </h1>
       </section>
 
       <section className="steps">

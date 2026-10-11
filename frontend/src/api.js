@@ -148,6 +148,41 @@ export async function sendFeedback(matchId, status, note) {
   });
 }
 
+export const PHOTO_TYPES = ["image/jpeg", "image/png", "image/webp"];
+export const PHOTO_MAX_BYTES = 5 * 1024 * 1024;
+
+export async function uploadPhoto(reportId, file) {
+  if (USE_MOCKS) {
+    await wait(700);
+    const report = mockPool().find((r) => String(r.id) === String(reportId));
+    if (report) {
+      report.has_photo = true;
+      report.photo_url = `/reports/${reportId}/photo`;
+    }
+    return report;
+  }
+
+  const form = new FormData();
+  form.append("file", file);
+
+  let res;
+  try {
+    // No Content-Type header: the browser must set the multipart boundary itself.
+    res = await fetch(`${BASE}/reports/${reportId}/photo`, {
+      method: "POST",
+      body: form,
+    });
+  } catch {
+    throw new Error(`Cannot reach the API at ${BASE}. Is the backend running?`);
+  }
+
+  const body = await res.json().catch(() => null);
+  if (!res.ok) {
+    throw new Error(body?.error?.message ?? `Photo upload failed (${res.status})`);
+  }
+  return body;
+}
+
 export function photoSrc(photoUrl) {
   if (!photoUrl) return null;
   return USE_MOCKS ? null : BASE + photoUrl;
