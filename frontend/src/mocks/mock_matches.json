@@ -1,0 +1,188 @@
+{
+  "report_id": 1,
+  "generated_at": "2026-10-10T09:00:00Z",
+  "degraded": false,
+  "degraded_reason": null,
+  "candidates_considered": 4,
+  "candidates": [
+    {
+      "match_id": 101,
+      "candidate_report_id": 2,
+      "candidate": {
+        "type": "found",
+        "description": "A navy school bag was left on a chair in the library. It has a keyring attached.",
+        "category": "bag",
+        "color": "navy",
+        "location": "Main Library, 2nd floor reading room",
+        "occurred_at": "2026-10-09T17:30:00Z",
+        "has_photo": true,
+        "photo_url": "/reports/2/photo"
+      },
+      "assessment": "likely_match",
+      "ranking_score": 93,
+      "score_breakdown": [
+        { "attribute": "category", "points": 30, "max": 30, "result": "agree" },
+        { "attribute": "color", "points": 20, "max": 20, "result": "agree" },
+        { "attribute": "location", "points": 20, "max": 20, "result": "agree" },
+        { "attribute": "time", "points": 15, "max": 15, "result": "agree" },
+        { "attribute": "features", "points": 8, "max": 15, "result": "partial" }
+      ],
+      "matching_evidence": [
+        {
+          "attribute": "category",
+          "this_report": "backpack",
+          "candidate": "school bag",
+          "source": "text",
+          "note": "A school bag and a backpack describe the same kind of item."
+        },
+        {
+          "attribute": "color",
+          "this_report": "dark blue",
+          "candidate": "navy",
+          "source": "text",
+          "note": "Navy is a shade of dark blue."
+        },
+        {
+          "attribute": "location",
+          "this_report": "Main Library",
+          "candidate": "Main Library, 2nd floor reading room",
+          "source": "text",
+          "note": "Both reports place the item in the Main Library."
+        },
+        {
+          "attribute": "time",
+          "this_report": "2026-10-09 14:00",
+          "candidate": "2026-10-09 17:30",
+          "source": "rule",
+          "note": "Found 3.5 hours after it was lost, on the same day."
+        },
+        {
+          "attribute": "features",
+          "this_report": "small keychain",
+          "candidate": "keyring attached",
+          "source": "text",
+          "note": "Both mention a keychain/keyring."
+        },
+        {
+          "attribute": "features",
+          "this_report": "Keychain is a small silver Eiffel Tower.",
+          "candidate": "[private detail withheld]",
+          "source": "text",
+          "note": "The finder recorded a private identifying detail that is consistent with yours. Describe it to the finder to verify."
+        }
+      ],
+      "conflicting_evidence": [],
+      "missing_information": [
+        "Whether the found bag contains a laptop.",
+        "The brand of the backpack."
+      ],
+      "next_step": "Contact the lost-and-found desk and describe your keychain to the finder to verify ownership before any handover.",
+      "feedback_status": "pending"
+    },
+    {
+      "match_id": 102,
+      "candidate_report_id": 4,
+      "candidate": {
+        "type": "found",
+        "description": "Someone handed in a backpack at the security desk.",
+        "category": "bag",
+        "color": null,
+        "location": null,
+        "occurred_at": null,
+        "has_photo": false,
+        "photo_url": null
+      },
+      "assessment": "insufficient_information",
+      "ranking_score": 30,
+      "score_breakdown": [
+        { "attribute": "category", "points": 30, "max": 30, "result": "agree" },
+        { "attribute": "color", "points": 0, "max": 20, "result": "unknown" },
+        { "attribute": "location", "points": 0, "max": 20, "result": "unknown" },
+        { "attribute": "time", "points": 0, "max": 15, "result": "unknown" },
+        { "attribute": "features", "points": 0, "max": 15, "result": "unknown" }
+      ],
+      "matching_evidence": [
+        {
+          "attribute": "category",
+          "this_report": "backpack",
+          "candidate": "backpack",
+          "source": "text",
+          "note": "Both reports are about a backpack."
+        }
+      ],
+      "conflicting_evidence": [],
+      "missing_information": [
+        "Color of the found backpack.",
+        "Where and when it was originally found.",
+        "Any keychain or contents."
+      ],
+      "next_step": "Not enough detail to judge. Ask the security desk for the backpack's color and contents before going there.",
+      "feedback_status": "pending"
+    },
+    {
+      "match_id": 103,
+      "candidate_report_id": 3,
+      "candidate": {
+        "type": "found",
+        "description": "Blue Adidas backpack found in the Sports Centre locker room. No keyring, has a water bottle in the side pocket.",
+        "category": "bag",
+        "color": "blue",
+        "location": "Sports Centre, locker room",
+        "occurred_at": "2026-10-08T10:00:00Z",
+        "has_photo": true,
+        "photo_url": "/reports/3/photo"
+      },
+      "assessment": "unlikely_match",
+      "ranking_score": 40,
+      "score_breakdown": [
+        { "attribute": "category", "points": 30, "max": 30, "result": "agree" },
+        { "attribute": "color", "points": 10, "max": 20, "result": "partial" },
+        { "attribute": "location", "points": 0, "max": 20, "result": "conflict" },
+        { "attribute": "time", "points": 0, "max": 15, "result": "conflict" },
+        { "attribute": "features", "points": 0, "max": 15, "result": "conflict" }
+      ],
+      "matching_evidence": [
+        {
+          "attribute": "category",
+          "this_report": "backpack",
+          "candidate": "backpack",
+          "source": "text",
+          "note": "Both reports are about a backpack."
+        },
+        {
+          "attribute": "color",
+          "this_report": "dark blue",
+          "candidate": "blue",
+          "source": "text",
+          "note": "Both are blue, but 'blue' is less specific than 'dark blue'."
+        }
+      ],
+      "conflicting_evidence": [
+        {
+          "attribute": "time",
+          "this_report": "2026-10-09 14:00",
+          "candidate": "2026-10-08 10:00",
+          "source": "rule",
+          "note": "This backpack was found the day BEFORE yours was lost."
+        },
+        {
+          "attribute": "location",
+          "this_report": "Main Library",
+          "candidate": "Sports Centre, locker room",
+          "source": "text",
+          "note": "Different buildings on campus."
+        },
+        {
+          "attribute": "features",
+          "this_report": "small keychain",
+          "candidate": "no keyring",
+          "source": "text",
+          "note": "The finder explicitly says there is no keyring."
+        }
+      ],
+      "missing_information": [],
+      "next_step": "Probably a different backpack. Only follow up if none of the other candidates work out.",
+      "feedback_status": "pending"
+    }
+  ]
+}

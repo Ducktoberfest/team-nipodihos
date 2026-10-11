@@ -1,0 +1,61 @@
+{
+  "report_id": 1,
+  "generated_at": "2026-10-10T09:00:00Z",
+  "degraded": true,
+  "degraded_reason": "AI model timed out. Showing rule-based results only.",
+  "candidates_considered": 4,
+  "candidates": [
+    {
+      "match_id": 101,
+      "candidate_report_id": 2,
+      "candidate": {
+        "type": "found",
+        "description": "A navy school bag was left on a chair in the library. It has a keyring attached.",
+        "category": "bag",
+        "color": "navy",
+        "location": "Main Library, 2nd floor reading room",
+        "occurred_at": "2026-10-09T17:30:00Z",
+        "has_photo": true,
+        "photo_url": "/reports/2/photo"
+      },
+      "assessment": "possible_match",
+      "ranking_score": 65,
+      "score_breakdown": [
+        { "attribute": "category", "points": 30, "max": 30, "result": "agree" },
+        { "attribute": "color", "points": 0, "max": 20, "result": "unknown" },
+        { "attribute": "location", "points": 20, "max": 20, "result": "agree" },
+        { "attribute": "time", "points": 15, "max": 15, "result": "agree" },
+        { "attribute": "features", "points": 0, "max": 15, "result": "unknown" }
+      ],
+      "matching_evidence": [
+        {
+          "attribute": "category",
+          "this_report": "bag",
+          "candidate": "bag",
+          "source": "rule",
+          "note": "Same category."
+        },
+        {
+          "attribute": "location",
+          "this_report": "Main Library",
+          "candidate": "Main Library, 2nd floor reading room",
+          "source": "rule",
+          "note": "Locations share the words 'Main Library'."
+        },
+        {
+          "attribute": "time",
+          "this_report": "2026-10-09 14:00",
+          "candidate": "2026-10-09 17:30",
+          "source": "rule",
+          "note": "Found 3.5 hours after it was lost."
+        }
+      ],
+      "conflicting_evidence": [],
+      "missing_information": [
+        "AI comparison unavailable: color and features were not compared."
+      ],
+      "next_step": "Try matching again later for a full AI comparison, or contact the lost-and-found desk to verify.",
+      "feedback_status": "pending"
+    }
+  ]
+}
