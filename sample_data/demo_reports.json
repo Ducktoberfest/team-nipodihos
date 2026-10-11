@@ -2,122 +2,472 @@
   "_about": "Demo dataset for FoundIt: a university campus, October 2026, all times UTC. Fictional; no real people. 'expected' records what a careful human would conclude and is used by scripts/eval_matching.py.",
   "reports": [
     {
-      "id": 1, "type": "lost", "category": "bag", "color": "dark blue",
+      "id": 1,
+      "type": "lost",
+      "category": "bag",
+      "color": "dark blue",
       "description": "I lost my dark blue backpack near the university library. It had a laptop and a small keychain inside.",
-      "location": "Main Library", "occurred_at": "2026-10-09T14:00:00Z",
-      "private_details": "Keychain is a small silver Eiffel Tower.", "contact": null
+      "location": "Main Library",
+      "occurred_at": "2026-10-09T14:00:00Z",
+      "private_details": "Keychain is a small silver Eiffel Tower.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": [
+          "blue"
+        ],
+        "brand": null,
+        "features": [
+          "laptop inside",
+          "small keychain inside"
+        ],
+        "location_normalized": "university library"
+      }
     },
     {
-      "id": 2, "type": "found", "category": "bag", "color": "navy",
+      "id": 2,
+      "type": "found",
+      "category": "bag",
+      "color": "navy",
       "description": "A navy school bag was left on a chair in the library. It has a keyring attached.",
-      "location": "Main Library, 2nd floor reading room", "occurred_at": "2026-10-09T17:30:00Z",
-      "private_details": "The keyring has a little metal tower charm.", "contact": null
+      "location": "Main Library, 2nd floor reading room",
+      "occurred_at": "2026-10-09T17:30:00Z",
+      "private_details": "The keyring has a little metal tower charm.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "school bag",
+        "category": "bag",
+        "color_family": [
+          "blue"
+        ],
+        "brand": null,
+        "features": [
+          "keyring attached"
+        ],
+        "location_normalized": "main library, 2nd floor reading room"
+      }
     },
     {
-      "id": 3, "type": "found", "category": "bag", "color": "blue",
+      "id": 3,
+      "type": "found",
+      "category": "bag",
+      "color": "blue",
       "description": "Blue Adidas backpack found in the Sports Centre locker room. No keyring, has a water bottle in the side pocket.",
-      "location": "Sports Centre, locker room", "occurred_at": "2026-10-08T10:00:00Z",
-      "private_details": null, "contact": null
+      "location": "Sports Centre, locker room",
+      "occurred_at": "2026-10-08T10:00:00Z",
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": [
+          "blue"
+        ],
+        "brand": "Adidas",
+        "features": [
+          "water bottle in the side pocket"
+        ],
+        "location_normalized": "sports centre locker room"
+      }
     },
     {
-      "id": 4, "type": "found", "category": "bag", "color": null,
+      "id": 4,
+      "type": "found",
+      "category": "bag",
+      "color": null,
       "description": "Someone handed in a backpack at the security desk.",
-      "location": null, "occurred_at": null, "private_details": null, "contact": null
+      "location": null,
+      "occurred_at": null,
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": [],
+        "brand": null,
+        "features": [],
+        "location_normalized": null
+      }
     },
     {
-      "id": 5, "type": "found", "category": "bag", "color": "dark blue",
+      "id": 5,
+      "type": "found",
+      "category": "bag",
+      "color": "dark blue",
       "description": "Dark blue backpack found in the library cafe area. There is a keychain on the zipper.",
-      "location": "Library cafe", "occurred_at": "2026-10-09T16:00:00Z",
-      "private_details": "Keychain is a red pom-pom with the letter K.", "contact": null
+      "location": "Library cafe",
+      "occurred_at": "2026-10-09T16:00:00Z",
+      "private_details": "Keychain is a red pom-pom with the letter K.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "backpack",
+        "category": "bag",
+        "color_family": [
+          "blue"
+        ],
+        "brand": null,
+        "features": [
+          "keychain on the zipper"
+        ],
+        "location_normalized": "library cafe"
+      }
     },
     {
-      "id": 6, "type": "lost", "category": "electronics", "color": "black",
+      "id": 6,
+      "type": "lost",
+      "category": "electronics",
+      "color": "black",
       "description": "Lost my black iPhone somewhere in the engineering building. The case has a cracked corner.",
-      "location": "Engineering Building", "occurred_at": "2026-10-09T18:00:00Z",
-      "private_details": "The lock screen photo is a golden retriever.", "contact": null
+      "location": "Engineering Building",
+      "occurred_at": "2026-10-09T18:00:00Z",
+      "private_details": "The lock screen photo is a golden retriever.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "smartphone",
+        "category": "electronics",
+        "color_family": [
+          "black"
+        ],
+        "brand": "iPhone",
+        "features": [
+          "case has a cracked corner"
+        ],
+        "location_normalized": "engineering building"
+      }
     },
     {
-      "id": 7, "type": "found", "category": "electronics", "color": "black",
+      "id": 7,
+      "type": "found",
+      "category": "electronics",
+      "color": "black",
       "description": "Black phone found under a desk in Lecture Hall B after the evening class. The case is cracked at one corner. Screen is locked.",
-      "location": "Engineering Building, Lecture Hall B", "occurred_at": "2026-10-09T19:15:00Z",
-      "private_details": "Lock screen shows a photo of a dog.", "contact": null
+      "location": "Engineering Building, Lecture Hall B",
+      "occurred_at": "2026-10-09T19:15:00Z",
+      "private_details": "Lock screen shows a photo of a dog.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "phone",
+        "category": "electronics",
+        "color_family": [
+          "black"
+        ],
+        "brand": null,
+        "features": [
+          "case is cracked at one corner",
+          "screen is locked"
+        ],
+        "location_normalized": "engineering building, lecture hall b"
+      }
     },
     {
-      "id": 8, "type": "found", "category": "electronics", "color": "black",
+      "id": 8,
+      "type": "found",
+      "category": "electronics",
+      "color": "black",
       "description": "Black Samsung phone in a blue case covered with stickers, found on a cafeteria table.",
-      "location": "Student Union cafeteria", "occurred_at": "2026-10-10T12:00:00Z",
-      "private_details": "Lock screen is a mountain landscape.", "contact": null
+      "location": "Student Union cafeteria",
+      "occurred_at": "2026-10-10T12:00:00Z",
+      "private_details": "Lock screen is a mountain landscape.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "phone",
+        "category": "electronics",
+        "color_family": [
+          "black"
+        ],
+        "brand": "Samsung",
+        "features": [
+          "blue case",
+          "covered with stickers"
+        ],
+        "location_normalized": "student union cafeteria"
+      }
     },
     {
-      "id": 9, "type": "lost", "category": "wallet", "color": "brown",
+      "id": 9,
+      "type": "lost",
+      "category": "wallet",
+      "color": "brown",
       "description": "Brown leather wallet, tri-fold, lost around lunchtime at the Student Union.",
-      "location": "Student Union cafeteria", "occurred_at": "2026-10-10T13:00:00Z",
-      "private_details": "Contains my student card and a green bus pass.", "contact": null
+      "location": "Student Union cafeteria",
+      "occurred_at": "2026-10-10T13:00:00Z",
+      "private_details": "Contains my student card and a green bus pass.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "wallet",
+        "category": "wallet",
+        "color_family": [
+          "brown"
+        ],
+        "brand": null,
+        "features": [
+          "tri-fold",
+          "leather"
+        ],
+        "location_normalized": "student union cafeteria"
+      }
     },
     {
-      "id": 10, "type": "found", "category": "wallet", "color": "dark brown",
+      "id": 10,
+      "type": "found",
+      "category": "wallet",
+      "color": "dark brown",
       "description": "Found a dark brown leather wallet under the cafeteria tables. It folds in three.",
-      "location": "Student Union cafeteria", "occurred_at": "2026-10-10T15:00:00Z",
-      "private_details": "Has a student ID card and a green transport card inside.", "contact": null
+      "location": "Student Union cafeteria",
+      "occurred_at": "2026-10-10T15:00:00Z",
+      "private_details": "Has a student ID card and a green transport card inside.",
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "wallet",
+        "category": "wallet",
+        "color_family": [
+          "brown"
+        ],
+        "brand": null,
+        "features": [
+          "leather",
+          "folds in three"
+        ],
+        "location_normalized": "student union cafeteria"
+      }
     },
     {
-      "id": 11, "type": "lost", "category": "bottle", "color": "green",
+      "id": 11,
+      "type": "lost",
+      "category": "bottle",
+      "color": "green",
       "description": "Lost my green metal water bottle. It has a dent near the bottom and a NASA sticker. Probably left it at the gym.",
-      "location": "Sports Centre gym", "occurred_at": null,
-      "private_details": null, "contact": null
+      "location": "Sports Centre gym",
+      "occurred_at": null,
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "water bottle",
+        "category": "bottle",
+        "color_family": [
+          "green"
+        ],
+        "brand": null,
+        "features": [
+          "metal",
+          "dent near the bottom",
+          "NASA sticker"
+        ],
+        "location_normalized": "sports centre gym"
+      }
     },
     {
-      "id": 12, "type": "found", "category": "bottle", "color": "green",
+      "id": 12,
+      "type": "found",
+      "category": "bottle",
+      "color": "green",
       "description": "Green water bottle with a space sticker left in the Sports Centre changing room.",
-      "location": "Sports Centre changing room", "occurred_at": "2026-10-10T17:00:00Z",
-      "private_details": null, "contact": null
+      "location": "Sports Centre changing room",
+      "occurred_at": "2026-10-10T17:00:00Z",
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "water bottle",
+        "category": "bottle",
+        "color_family": [
+          "green"
+        ],
+        "brand": null,
+        "features": [
+          "space sticker"
+        ],
+        "location_normalized": "sports centre changing room"
+      }
     },
     {
-      "id": 13, "type": "lost", "category": "clothing", "color": "grey",
+      "id": 13,
+      "type": "lost",
+      "category": "clothing",
+      "color": "grey",
       "description": "Grey hoodie, lost somewhere on campus last week.",
-      "location": null, "occurred_at": null, "private_details": null, "contact": null
+      "location": null,
+      "occurred_at": null,
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "hoodie",
+        "category": "clothing",
+        "color_family": [
+          "grey"
+        ],
+        "brand": null,
+        "features": [],
+        "location_normalized": null
+      }
     },
     {
-      "id": 14, "type": "found", "category": "clothing", "color": "grey",
+      "id": 14,
+      "type": "found",
+      "category": "clothing",
+      "color": "grey",
       "description": "Grey Nike hoodie, size M, with a coffee stain on the left sleeve, left on a seat in Lecture Hall C.",
-      "location": "Lecture Hall C", "occurred_at": "2026-10-05T11:00:00Z",
-      "private_details": null, "contact": null
+      "location": "Lecture Hall C",
+      "occurred_at": "2026-10-05T11:00:00Z",
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "hoodie",
+        "category": "clothing",
+        "color_family": [
+          "grey"
+        ],
+        "brand": "Nike",
+        "features": [
+          "size M",
+          "coffee stain on the left sleeve"
+        ],
+        "location_normalized": "lecture hall c"
+      }
     },
     {
-      "id": 15, "type": "lost", "category": "umbrella", "color": "black",
+      "id": 15,
+      "type": "lost",
+      "category": "umbrella",
+      "color": "black",
       "description": "Black umbrella with a curved wooden handle. I forgot it at the Main Library entrance this morning.",
-      "location": "Main Library entrance", "occurred_at": "2026-10-10T09:00:00Z",
-      "private_details": null, "contact": null
+      "location": "Main Library entrance",
+      "occurred_at": "2026-10-10T09:00:00Z",
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "umbrella",
+        "category": "umbrella",
+        "color_family": [
+          "black"
+        ],
+        "brand": null,
+        "features": [
+          "curved wooden handle"
+        ],
+        "location_normalized": "main library entrance"
+      }
     },
     {
-      "id": 16, "type": "found", "category": "umbrella", "color": "black",
+      "id": 16,
+      "type": "found",
+      "category": "umbrella",
+      "color": "black",
       "description": "Black folding umbrella with a short plastic handle, found at the campus bus stop.",
-      "location": "Campus bus stop", "occurred_at": "2026-10-10T18:00:00Z",
-      "private_details": null, "contact": null
+      "location": "Campus bus stop",
+      "occurred_at": "2026-10-10T18:00:00Z",
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "umbrella",
+        "category": "umbrella",
+        "color_family": [
+          "black"
+        ],
+        "brand": null,
+        "features": [
+          "folding",
+          "short plastic handle"
+        ],
+        "location_normalized": "campus bus stop"
+      }
     },
     {
-      "id": 17, "type": "found", "category": "keys", "color": "silver",
+      "id": 17,
+      "type": "found",
+      "category": "keys",
+      "color": "silver",
       "description": "Set of three silver keys on a red bottle-opener keyring, found in the car park.",
-      "location": "North car park", "occurred_at": "2026-10-10T08:30:00Z",
-      "private_details": null, "contact": null
+      "location": "North car park",
+      "occurred_at": "2026-10-10T08:30:00Z",
+      "private_details": null,
+      "contact": null,
+      "ai_attributes": {
+        "extraction_status": "ok",
+        "item_type": "keys",
+        "category": "keys",
+        "color_family": [
+          "silver"
+        ],
+        "brand": null,
+        "features": [
+          "set of three silver keys",
+          "red bottle-opener keyring"
+        ],
+        "location_normalized": "north car park"
+      }
     }
   ],
   "expected": {
     "true_pairs": [
-      [1, 2, "same backpack, different words (navy school bag); private details agree"],
-      [6, 7, "same phone: cracked corner, engineering building, dog on lock screen"],
-      [9, 10, "same wallet: tri-fold = folds in three; student card + green bus/transport card"],
-      [11, 12, "same bottle: green, Sports Centre, NASA ~ space sticker; lost report has no date"]
+      [
+        1,
+        2,
+        "same backpack, different words (navy school bag); private details agree"
+      ],
+      [
+        6,
+        7,
+        "same phone: cracked corner, engineering building, dog on lock screen"
+      ],
+      [
+        9,
+        10,
+        "same wallet: tri-fold = folds in three; student card + green bus/transport card"
+      ],
+      [
+        11,
+        12,
+        "same bottle: green, Sports Centre, NASA ~ space sticker; lost report has no date"
+      ]
     ],
     "plausible_pairs": [
-      [13, 14, "sparse lost report vs rich found report: compatible but too little to be sure"]
+      [
+        13,
+        14,
+        "sparse lost report vs rich found report: compatible but too little to be sure"
+      ]
     ],
     "decoys": [
-      [1, 3, "found the day BEFORE it was lost, other building, explicitly no keyring"],
-      [1, 5, "looks identical publicly, but the private keychain detail contradicts"],
-      [6, 8, "different brand (iPhone vs Samsung), different case and lock screen"],
-      [15, 16, "different handle (wooden vs plastic) and place"]
+      [
+        1,
+        3,
+        "found the day BEFORE it was lost, other building, explicitly no keyring"
+      ],
+      [
+        1,
+        5,
+        "looks identical publicly, but the private keychain detail contradicts"
+      ],
+      [
+        6,
+        8,
+        "different brand (iPhone vs Samsung), different case and lock screen"
+      ],
+      [
+        15,
+        16,
+        "different handle (wooden vs plastic) and place"
+      ]
     ],
-    "no_true_match": [15]
+    "no_true_match": [
+      15
+    ]
   }
 }

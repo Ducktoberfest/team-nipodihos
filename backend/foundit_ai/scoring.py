@@ -49,7 +49,8 @@ SAME_PERIOD = timedelta(days=3)
 
 
 def _fmt(dt) -> str:
-    return dt.strftime("%Y-%m-%d %H:%M")
+    # Stored times are UTC; say so, because the UI shows local time elsewhere.
+    return dt.strftime("%Y-%m-%d %H:%M UTC")
 
 
 def _human(delta: timedelta) -> str:
@@ -269,6 +270,18 @@ NEXT_STEP_BY_ASSESSMENT: dict[Assessment, str] = {
 }
 
 
+def _already_known(item: str, query: ReportRecord, cand: ReportRecord) -> bool:
+    """The model never sees photos or times, so it may list them as 'missing'
+    even when we have them. Drop those items instead of misleading the user."""
+    text = item.lower()
+    if "photo" in text and cand.has_photo:
+        return True
+    if (re.search(r"\b(time|date|when)\b", text)
+            and query.occurred_at is not None and cand.occurred_at is not None):
+        return True
+    return False
+
+
 def assess_candidate(query: ReportRecord, cand: ReportRecord,
                      verdict: LLMVerdict | None) -> CandidateAssessment:
     """Turn (optional) model verdict + rules into one explainable result."""
@@ -277,7 +290,13 @@ def assess_candidate(query: ReportRecord, cand: ReportRecord,
 
     if verdict is not None:
         evidence, _dropped = verify_llm_evidence(verdict, query, cand)
-        missing = [m for m in verdict.missing_information if not leaks(m, secrets)]
+        # Category is a plain equality check on the user's or the extracted category.
+        # If the model said nothing usable about it, let the rule decide.
+        if not any(ce.attribute == "category" for ce in evidence):
+            evidence += [ce for ce in rule_based_evidence(query, cand)
+                         if ce.attribute == "category"]
+        missing = [m for m in verdict.missing_information
+                   if not leaks(m, secrets) and not _already_known(m, query, cand)]
         next_step = verdict.next_step if not leaks(verdict.next_step, secrets) else SAFE_NEXT_STEP
     else:
         evidence = rule_based_evidence(query, cand)

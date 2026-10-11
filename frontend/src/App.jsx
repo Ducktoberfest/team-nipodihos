@@ -14,9 +14,12 @@ const NAV = [
 export default function App() {
   const [page, setPage] = useState("home");
   const [selectedReportId, setSelectedReportId] = useState(null);
+  // True when we arrive from the report form: matching starts by itself.
+  const [autoRunMatches, setAutoRunMatches] = useState(false);
 
-  function openMatches(reportId) {
+  function openMatches(reportId, autoRun = false) {
     setSelectedReportId(reportId);
+    setAutoRunMatches(autoRun);
     setPage("matches");
   }
 
@@ -49,14 +52,17 @@ export default function App() {
           {page === "home" && <Landing />}
 
           {page === "new" && (
-            <ReportForm onCreated={(report) => openMatches(report.id)} />
+            <ReportForm onCreated={(report) => openMatches(report.id, true)} />
           )}
 
-          {page === "list" && <ReportList onOpenMatches={openMatches} />}
+          {page === "list" && (
+            <ReportList onOpenMatches={(id) => openMatches(id)} />
+          )}
 
           {page === "matches" && selectedReportId != null && (
             <MatchesView
               reportId={selectedReportId}
+              autoRun={autoRunMatches}
               onBack={() => setPage("list")}
             />
           )}
