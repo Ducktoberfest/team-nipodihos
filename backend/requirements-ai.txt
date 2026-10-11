@@ -1,0 +1,5 @@
+# Dependencies of the FoundIt AI module (backend/foundit_ai). Owned by Person C.
+openai>=1.50        # OpenAI-compatible client, pointed at Groq's endpoint
+pydantic>=2.7
+python-dotenv>=1.0
+pytest>=8
