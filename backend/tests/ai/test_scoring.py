@@ -163,3 +163,33 @@ def test_sparse_report_cannot_be_likely():
     assert decide_assessment(results, 65, "likely_match", False) == "possible_match"
     results["location"] = "agree"
     assert decide_assessment(results, 85, "likely_match", False) == "likely_match"
+
+
+def test_rule_fills_category_when_model_skips_it(lost_backpack, found_navy_bag):
+    """Seen live: user left category empty, model said nothing about it -> 0/30."""
+    from foundit_ai.schemas import AIAttributes
+    lost = lost_backpack.model_copy(update={
+        "category": None,
+        "ai_attributes": AIAttributes(extraction_status="ok", category="bag")})
+    v = verdict(2, [ev("color", "agree", "dark blue", "navy")])
+    result = assess_candidate(lost, found_navy_bag, v)
+    assert result.score_breakdown[0].result == "agree"
+    assert result.score_breakdown[0].points == 30
+
+
+def test_evidence_times_are_labelled_utc(lost_backpack, found_navy_bag):
+    _, evidence = time_check(lost_backpack, found_navy_bag)
+    assert evidence.this_report.endswith("UTC")
+
+
+def test_missing_info_that_we_actually_have_is_dropped(lost_backpack, found_navy_bag):
+    """Seen live: model listed 'photo of the bag' and 'exact time it was found'."""
+    v = verdict(2, [ev("color", "agree", "dark blue", "navy")],
+                missing=["photo of the bag", "exact time it was found", "description of laptop"])
+    result = assess_candidate(lost_backpack, found_navy_bag, v)   # navy bag has photo + time
+    assert result.missing_information == ["description of laptop"]
+
+
+def test_missing_photo_kept_when_there_is_none(lost_backpack, found_sports_bag):
+    v = verdict(3, [ev("color", "partial", "dark blue", "Blue")], missing=["photo of the bag"])
+    assert assess_candidate(lost_backpack, found_sports_bag, v).missing_information == ["photo of the bag"]

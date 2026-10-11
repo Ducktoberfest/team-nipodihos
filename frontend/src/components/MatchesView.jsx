@@ -1,14 +1,17 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MatchCard from "./MatchCard.jsx";
 import { findMatches, getMatches, getReport } from "../api.js";
 import { categoryLabel, formatDateTime, orDash } from "../format.js";
 
-export default function MatchesView({ reportId, onBack }) {
+export default function MatchesView({ reportId, autoRun = false, onBack }) {
   const [report, setReport] = useState(null);
   const [run, setRun] = useState(null);
   const [loading, setLoading] = useState(true);
   const [matching, setMatching] = useState(false);
   const [error, setError] = useState(null);
+  // Remembers which report already auto-ran, so React's dev double-effects
+  // and re-renders never trigger a second (paid) AI call.
+  const autoRanFor = useRef(null);
 
   useEffect(() => {
     let active = true;
@@ -33,6 +36,15 @@ export default function MatchesView({ reportId, onBack }) {
       active = false;
     };
   }, [reportId]);
+
+  useEffect(() => {
+    if (autoRun && !loading && report && !run && autoRanFor.current !== reportId) {
+      autoRanFor.current = reportId;
+      runMatching();
+    }
+    // runMatching only depends on reportId, which is already listed.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoRun, loading, report, run, reportId]);
 
   async function runMatching() {
     setMatching(true);

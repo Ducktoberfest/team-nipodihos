@@ -14,14 +14,17 @@ export default function App() {
   const [page, setPage] = useState("home");
   const [selectedReportId, setSelectedReportId] = useState(null);
   const [newReportType, setNewReportType] = useState("lost");
+  // True when we arrive from the report form: matching starts by itself.
+  const [autoRunMatches, setAutoRunMatches] = useState(false);
 
   function openForm(type) {
     setNewReportType(type);
     setPage("new");
   }
 
-  function openMatches(reportId) {
+  function openMatches(reportId, autoRun = false) {
     setSelectedReportId(reportId);
+    setAutoRunMatches(autoRun);
     setPage("matches");
   }
 
@@ -56,15 +59,18 @@ export default function App() {
             <ReportForm
               key={newReportType}
               initialType={newReportType}
-              onCreated={(report) => openMatches(report.id)}
+              onCreated={(report) => openMatches(report.id, true)}
             />
           )}
 
-          {page === "list" && <ReportList onOpenMatches={openMatches} />}
+          {page === "list" && (
+            <ReportList onOpenMatches={(id) => openMatches(id)} />
+          )}
 
           {page === "matches" && selectedReportId != null && (
             <MatchesView
               reportId={selectedReportId}
+              autoRun={autoRunMatches}
               onBack={() => setPage("list")}
             />
           )}
