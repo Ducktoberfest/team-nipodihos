@@ -9,6 +9,13 @@ import pytest
 from foundit_ai.schemas import ReportRecord
 
 
+@pytest.fixture(autouse=True)
+def _no_real_api_key(monkeypatch):
+    """Tests must never call a real model: hide every provider key from every test."""
+    for key in ("GROQ_API_KEY", "GEMINI_API_KEY"):
+        monkeypatch.delenv(key, raising=False)
+
+
 def at(day: int, hour: int, minute: int = 0) -> datetime:
     return datetime(2026, 10, day, hour, minute, tzinfo=timezone.utc)
 

@@ -222,6 +222,9 @@ def rule_based_evidence(query: ReportRecord, cand: ReportRecord) -> list[Checked
 
 # --- 4 + 5. combine ----------------------------------------------------------
 
+LIKELY_MIN_KNOWN = 4      # of the 5 scored attributes
+LIKELY_MIN_SCORE = 70
+
 _PRECEDENCE: dict[Result, int] = {"conflict": 3, "agree": 2, "partial": 1, "unknown": 0}
 
 
@@ -247,7 +250,10 @@ def decide_assessment(results: dict[ScoredAttribute, Result], score: int,
         return "insufficient_information"
     if suggestion is None:  # degraded mode: never claim "likely" without the model
         return "possible_match" if score >= 50 else "unlikely_match"
-    if suggestion == "likely_match" and (conflicts or score < 60):
+    # "likely" needs broad evidence: no conflicts, most attributes known, solid score.
+    # (A sparse "grey hoodie" matching on category + colour alone stays "possible".)
+    if suggestion == "likely_match" and (conflicts or known < LIKELY_MIN_KNOWN
+                                         or score < LIKELY_MIN_SCORE):
         return "possible_match"
     return suggestion
 

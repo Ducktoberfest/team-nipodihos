@@ -154,3 +154,12 @@ def test_degraded_colour_rule_ignores_shade_words(lost_backpack, found_decoy_bag
     found_decoy_bag.color = "dark green"
     result = assess_candidate(lost_backpack, found_decoy_bag, None)
     assert result.score_breakdown[1].result == "unknown"
+
+
+def test_sparse_report_cannot_be_likely():
+    """Category + colour + one vague feature is not enough for 'likely'."""
+    results = {"category": "agree", "color": "agree", "location": "unknown",
+               "time": "unknown", "features": "agree"}
+    assert decide_assessment(results, 65, "likely_match", False) == "possible_match"
+    results["location"] = "agree"
+    assert decide_assessment(results, 85, "likely_match", False) == "likely_match"
