@@ -1,4 +1,5 @@
 import { useState } from "react";
+import Logo from "./components/Logo.jsx";
 import Landing from "./components/Landing.jsx";
 import ReportForm from "./components/ReportForm.jsx";
 import ReportList from "./components/ReportList.jsx";
@@ -30,7 +31,10 @@ export default function App() {
       <header className="app-header">
         <div className="container">
           <button className="logo" onClick={() => setPage("home")}>
-            Found<span>It</span>
+            <Logo />
+            <span className="wordmark">
+              Found<span>It</span>
+            </span>
           </button>
           <nav className="app-nav">
             {NAV.map((item) => (

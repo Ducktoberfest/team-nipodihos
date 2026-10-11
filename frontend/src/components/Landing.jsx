@@ -2,7 +2,10 @@ export default function Landing({ onReport, onBrowse }) {
   return (
     <div>
       <section className="hero">
-        <h1>Lost something on campus?</h1>
+        <span className="eyebrow">Team Nipodihos · Ducktoberfest Baku 2026</span>
+        <h1>
+          Lost something <em>on campus?</em>
+        </h1>
         <p className="lede">
           FoundIt compares your description with items other people have handed
           in — even when they describe the same thing in completely different
