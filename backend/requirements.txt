@@ -1,0 +1,6 @@
+# Uncomment the next line once Person C merges backend/requirements-ai.txt into main:
+# -r requirements-ai.txt
+fastapi[standard]>=0.115
+python-multipart>=0.0.9
+python-dotenv>=1.0
+pytest>=8
