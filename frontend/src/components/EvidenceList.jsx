@@ -11,6 +11,7 @@ function Side({ who, value }) {
       </div>
     );
   }
+  
   return (
     <div className="side">
       <span className="who">{who}</span>
