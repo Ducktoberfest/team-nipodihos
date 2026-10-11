@@ -22,7 +22,8 @@ def load_reports() -> tuple[Path, list[dict]]:
     for path in SOURCES:
         if path.exists():
             data = json.loads(path.read_text(encoding="utf-8"))
-            items = data["items"] if isinstance(data, dict) else data
+            # demo_reports.json uses "reports", mock_reports.json uses "items"
+            items = data if isinstance(data, list) else data.get("reports") or data.get("items") or []
             return path, items
     raise SystemExit("No demo data found in sample_data/")
 

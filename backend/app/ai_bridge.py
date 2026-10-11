@@ -29,7 +29,8 @@ except ModuleNotFoundError as exc:
 
 
 def ai_available() -> bool:
-    return AI_MODULE_AVAILABLE and bool(os.getenv("GROQ_API_KEY"))
+    # Gemma runs via Google AI Studio, gpt-oss via Groq; either key is enough (see .env.example).
+    return AI_MODULE_AVAILABLE and bool(os.getenv("GEMINI_API_KEY") or os.getenv("GROQ_API_KEY"))
 
 
 def row_to_record(row: sqlite3.Row) -> "ReportRecord":
